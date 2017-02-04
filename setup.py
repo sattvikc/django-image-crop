@@ -7,6 +7,10 @@ setup(
     author='Sattvik Chakravarthy',
     author_email='sattvik@gmail.com',
     packages=find_packages(),
+    install_requires=[
+        'Django',
+        'Pillow',
+    ],
     include_package_data=True,
     zip_safe=False
 )
