@@ -26,7 +26,6 @@ class CroppedImageInstance(object):
         return 512
 
     def cropped_url(self):
-        print('QUALITY', self.q)
         return CroppedImage.get_cropped_image(
             path=os.path.join(settings.MEDIA_ROOT, self.image),
             x1=self.x1, y1=self.y1,
