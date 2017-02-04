@@ -1,0 +1,7 @@
+<div class="imagecrop" style="width: 800px">
+  <img {% if state.image %}src="{{ state.image }}" {% endif %}data-imagecrop="{{ id }}" data-imagecrop-aspectratio="1" data-imagecrop-precision="6" style="width: 100%;" />
+  {{ widgets.image }}
+  {{ widgets.x1 }} {{ widgets.y1 }}
+  {{ widgets.x2 }} {{ widgets.y2 }}
+  {{ widgets.prev }}
+</div>
