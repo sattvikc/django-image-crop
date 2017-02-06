@@ -13,7 +13,7 @@ import uuid
 
 
 class CroppedImageInstance(object):
-    def __init__(self, image, x1, y1, x2, y2, q, zoom):
+    def __init__(self, image, x1, y1, x2, y2, q, zoom, maxw, maxh):
         self.image = image
         self.x1 = x1
         self.y1 = y1
@@ -21,6 +21,8 @@ class CroppedImageInstance(object):
         self.y2 = y2
         self.q = q
         self.zoom = zoom
+        self.maxw = maxw
+        self.maxh = maxh
 
     def __len__(self):
         return 512
@@ -30,7 +32,9 @@ class CroppedImageInstance(object):
             path=os.path.join(settings.MEDIA_ROOT, self.image),
             x1=self.x1, y1=self.y1,
             x2=self.x2, y2=self.y2,
-            q=self.q
+            q=self.q,
+            zoom=1,
+            maxw=self.maxw, maxh=self.maxh
         ).url
 
     def original_url(self):
@@ -60,7 +64,8 @@ class CroppedImageField(models.CharField):
             return None
 
         image, x1, y1, x2, y2, q, zoom = value.split(';')
-        return CroppedImageInstance(image, x1, y1, x2, y2, q, zoom)
+        return CroppedImageInstance(image, x1, y1, x2, y2, q, zoom, self.width,
+                                    self.height)
 
     def to_python(self, value):
         print('PY VALUE', value)
@@ -72,7 +77,7 @@ class CroppedImageField(models.CharField):
             if image is None:
                 image = prev_value
             return CroppedImageInstance(image, x1, y1, x2, y2, self.quality,
-                                        self.zoom)
+                                        self.zoom, self.width, self.height)
         else:
             assert('This should never happen!')
 
